@@ -18,4 +18,11 @@
         <module>jeecg-system-start</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jeecgframework.boot</groupId>
+            <artifactId>ysj</artifactId>
+            <version>3.7.1</version>
+        </dependency>
+    </dependencies>
 </project>
