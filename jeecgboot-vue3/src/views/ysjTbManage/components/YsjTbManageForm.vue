@@ -2,41 +2,21 @@
   <a-spin :spinning="confirmLoading">
     <JFormContainer :disabled="disabled">
       <template #detail>
-        <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol" name="YsjFieldManageForm">
+        <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol" name="YsjTbManageForm">
           <a-row>
 						<a-col :span="24">
-							<a-form-item label="字段" v-bind="validateInfos.ysjField" id="YsjFieldManageForm-ysjField" name="ysjField">
-								<a-input v-model:value="formData.ysjField" placeholder="请输入字段"  allow-clear ></a-input>
+							<a-form-item label="表名称" v-bind="validateInfos.ysjTbName" id="YsjTbManageForm-ysjTbName" name="ysjTbName">
+								<a-input v-model:value="formData.ysjTbName" placeholder="请输入表名称"  allow-clear ></a-input>
 							</a-form-item>
 						</a-col>
 						<a-col :span="24">
-							<a-form-item label="字段中文名称" v-bind="validateInfos.ysjFieldName" id="YsjFieldManageForm-ysjFieldName" name="ysjFieldName">
-								<a-input v-model:value="formData.ysjFieldName" placeholder="请输入字段中文名称"  allow-clear ></a-input>
+							<a-form-item label="表中文名" v-bind="validateInfos.ysjTbCname" id="YsjTbManageForm-ysjTbCname" name="ysjTbCname">
+								<a-input v-model:value="formData.ysjTbCname" placeholder="请输入表中文名"  allow-clear ></a-input>
 							</a-form-item>
 						</a-col>
 						<a-col :span="24">
-							<a-form-item label="字段长度" v-bind="validateInfos.ysjFieldLength" id="YsjFieldManageForm-ysjFieldLength" name="ysjFieldLength">
-								<a-input-number v-model:value="formData.ysjFieldLength" placeholder="请输入字段长度" style="width: 100%" />
-							</a-form-item>
-						</a-col>
-						<a-col :span="24">
-							<a-form-item label="字段类型" v-bind="validateInfos.ysjFieldType" id="YsjFieldManageForm-ysjFieldType" name="ysjFieldType">
-								<j-dict-select-tag v-model:value="formData.ysjFieldType" dictCode="filed_type" placeholder="请选择字段类型"  allow-clear />
-							</a-form-item>
-						</a-col>
-						<a-col :span="24">
-							<a-form-item label="字典" v-bind="validateInfos.ysjDict" id="YsjFieldManageForm-ysjDict" name="ysjDict">
-								<j-dict-select-tag type='radio' v-model:value="formData.ysjDict" dictCode="yn" placeholder="请选择字典"  allow-clear />
-							</a-form-item>
-						</a-col>
-						<a-col :span="24">
-							<a-form-item label="字典编码" v-bind="validateInfos.ysjDictCode" id="YsjFieldManageForm-ysjDictCode" name="ysjDictCode">
-								<j-dict-select-tag v-model:value="formData.ysjDictCode" dictCode="jimu_dict,dict_name,dict_code" placeholder="请选择字典编码"  allow-clear />
-							</a-form-item>
-						</a-col>
-						<a-col :span="24">
-							<a-form-item label="备注" v-bind="validateInfos.remark" id="YsjFieldManageForm-remark" name="remark">
-								<a-textarea v-model:value="formData.remark" :rows="4" placeholder="请输入备注" />
+							<a-form-item label="表的主键" v-bind="validateInfos.ysjTbPrimary" id="YsjTbManageForm-ysjTbPrimary" name="ysjTbPrimary">
+								<j-select-multiple type="list_multi" v-model:value="formData.ysjTbPrimary" dictCode="ysj_field_manage,ysj_field,ysj_field" placeholder="请选择表的主键"  :triggerChange="false"/>
 							</a-form-item>
 						</a-col>
           </a-row>
@@ -50,9 +30,9 @@
   import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
   import { defHttp } from '/@/utils/http/axios';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import JDictSelectTag from '/@/components/Form/src/jeecg/components/JDictSelectTag.vue';
+  import JSelectMultiple from '/@/components/Form/src/jeecg/components/JSelectMultiple.vue';
   import { getValueType } from '/@/utils';
-  import { saveOrUpdate } from '../YsjFieldManage.api';
+  import { saveOrUpdate } from '../YsjTbManage.api';
   import { Form } from 'ant-design-vue';
   import JFormContainer from '/@/components/Form/src/container/JFormContainer.vue';
   import { duplicateValidate } from '/@/utils/helper/validator'
@@ -66,13 +46,9 @@
   const emit = defineEmits(['register', 'ok']);
   const formData = reactive<Record<string, any>>({
     id: '',
-    ysjField: '',   
-    ysjFieldName: '',   
-    ysjFieldLength: undefined,
-    ysjFieldType: '',   
-    ysjDict: '',   
-    ysjDictCode: '',   
-    remark: '',   
+    ysjTbName: '',   
+    ysjTbCname: '',   
+    ysjTbPrimary: '',   
   });
   const { createMessage } = useMessage();
   const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
@@ -80,11 +56,8 @@
   const confirmLoading = ref<boolean>(false);
   //表单验证
   const validatorRules = reactive({
-    ysjField: [{ required: true, message: '请输入字段!'}, { validator: ysjFieldDuplicatevalidate }],
-    ysjFieldName: [{ required: true, message: '请输入字段中文名称!'},],
-    ysjFieldLength: [{ required: true, message: '请输入字段长度!'}, { pattern: /^-?\d+\.?\d*$/, message: '请输入数字!'},],
-    ysjFieldType: [{ required: true, message: '请输入字段类型!'},],
-    ysjDict: [{ required: true, message: '请输入字典!'},],
+    ysjTbName: [{ required: true, message: '请输入表名称!'}, { validator: ysjTbNameDuplicatevalidate }],
+    ysjTbCname: [{ required: true, message: '请输入表中文名!'},],
   });
   const { resetFields, validate, validateInfos } = useForm(formData, validatorRules, { immediate: false });
 
@@ -174,8 +147,8 @@
   }
 
 
-  async function ysjFieldDuplicatevalidate(_r, value) {
-    return duplicateValidate('ysj_field_manage', 'ysj_field', value, formData.id || '')
+  async function ysjTbNameDuplicatevalidate(_r, value) {
+    return duplicateValidate('ysj_tb_manage', 'ysj_tb_name', value, formData.id || '')
   }
   defineExpose({
     add,

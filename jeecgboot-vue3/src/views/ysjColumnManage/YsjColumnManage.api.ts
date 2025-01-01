@@ -4,13 +4,13 @@ import { useMessage } from "/@/hooks/web/useMessage";
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/ysjFieldManage/ysjFieldManage/list',
-  save='/ysjFieldManage/ysjFieldManage/add',
-  edit='/ysjFieldManage/ysjFieldManage/edit',
-  deleteOne = '/ysjFieldManage/ysjFieldManage/delete',
-  deleteBatch = '/ysjFieldManage/ysjFieldManage/deleteBatch',
-  importExcel = '/ysjFieldManage/ysjFieldManage/importExcel',
-  exportXls = '/ysjFieldManage/ysjFieldManage/exportXls',
+  list = '/ysjColumnManage/ysjColumnManage/list',
+  save='/ysjColumnManage/ysjColumnManage/add',
+  edit='/ysjColumnManage/ysjColumnManage/edit',
+  deleteOne = '/ysjColumnManage/ysjColumnManage/delete',
+  deleteBatch = '/ysjColumnManage/ysjColumnManage/deleteBatch',
+  importExcel = '/ysjColumnManage/ysjColumnManage/importExcel',
+  exportXls = '/ysjColumnManage/ysjColumnManage/exportXls',
 }
 
 /**

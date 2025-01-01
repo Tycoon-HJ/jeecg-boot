@@ -1,12 +1,12 @@
 <template>
   <j-modal :title="title" :width="width" :visible="visible" @ok="handleOk" :okButtonProps="{ class: { 'jee-hidden': disableSubmit } }" @cancel="handleCancel" cancelText="关闭">
-    <YsjFieldManageForm ref="registerForm" @ok="submitCallback" :formDisabled="disableSubmit" :formBpm="false"></YsjFieldManageForm>
+    <YsjTbManageForm ref="registerForm" @ok="submitCallback" :formDisabled="disableSubmit" :formBpm="false"></YsjTbManageForm>
   </j-modal>
 </template>
 
 <script lang="ts" setup>
   import { ref, nextTick, defineExpose } from 'vue';
-  import YsjFieldManageForm from './YsjFieldManageForm.vue'
+  import YsjTbManageForm from './YsjTbManageForm.vue'
   import JModal from '/@/components/Modal/src/JModal/JModal.vue';
   
   const title = ref<string>('');

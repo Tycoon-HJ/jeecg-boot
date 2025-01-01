@@ -1,22 +1,7 @@
-
-JeecgBoot 低代码开发平台
-===============
-
-当前最新版本： 3.7.1（发布日期：2024-09-12） 
-
-
-[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE)
-[![](https://img.shields.io/badge/Author-北京国炬软件-orange.svg)](http://jeecg.com/aboutusIndex)
-[![](https://img.shields.io/badge/version-3.7.1-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
-[![GitHub stars](https://img.shields.io/github/stars/zhangdaiscott/jeecg-boot.svg?style=social&label=Stars)](https://github.com/zhangdaiscott/jeecg-boot)
-[![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg-boot.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg-boot)
-
-
-
 项目介绍
 -----------------------------------
 
-<h3 align="center">Java Low Code Platform for Enterprise web applications</h3>
+<h3 align="center">基于JeecgBoot开发的元数据平台</h3>
 
 JeecgBoot 是一款基于代码生成器的`低代码开发平台`！前后端分离架构 SpringBoot2.x和3.x，SpringCloud，Ant Design Vue3，Mybatis-plus，Shiro，JWT，支持微服务。强大的代码生成器让前后端代码一键生成，实现低代码开发!  JeecgBoot 引领新的低代码开发模式(OnlineCoding-> 代码生成器-> 手工MERGE)， 帮助解决Java项目70%的重复工作，让开发更多关注业务。既能快速提高效率，节省研发成本，同时又不失灵活性！
 
@@ -35,10 +20,6 @@ JeecgBoot 是一款基于代码生成器的`低代码开发平台`！前后端�
 
 - 官方网站：  [http://www.jeecg.com](http://www.jeecg.com)
 - 新手指南： [快速入门](http://www.jeecg.com/doc/quickstart)
-- QQ交流群 ： ⑨808791225、其他(满)
-- 在线演示 ：  [在线演示](http://boot3.jeecg.com)   | [APP演示](http://jeecg.com/appIndex)
-> 演示系统的登录账号密码，请点击 [获取账号密码](http://jeecg.com/doc/demo) 获取 
-
 
 
 启动项目
@@ -74,7 +55,6 @@ JeecgBoot 是一款基于代码生成器的`低代码开发平台`！前后端�
 - 缓存：Redis
 - 其他：autopoi, fastjson，poi，Swagger-ui，quartz, lombok（简化代码）等。
 - 默认数据库脚本：MySQL5.7+
-- [其他数据库，需要自己转](https://my.oschina.net/jeecg/blog/4905722)
 
 
 #### 前端
@@ -83,21 +63,6 @@ JeecgBoot 是一款基于代码生成器的`低代码开发平台`！前后端�
 - 采用 Vue3.0+TypeScript+Vite+Ant-Design-Vue等新技术方案，包括二次封装组件、utils、hooks、动态菜单、权限校验、按钮级别权限控制等功能
 - 最新技术栈：Vue3.0 + TypeScript + Vite5 + ant-design-vue4 + pinia + echarts + unocss + vxe-table + qiankun + es6
 - 依赖管理：node、npm、pnpm
-
-
-
-#### 支持库
-
-|  数据库   |  支持   |
-| --- | --- |
-|   MySQL   |  √   |
-|  Oracle11g   |  √   |
-|  Sqlserver2017   |  √   |
-|   PostgreSQL   |  √   |
-|   MariaDB   |  √   |
-|   达梦   |  √   |
-|   人大金仓   |  √   |
-|   TiDB   |  √   |
 
 
 

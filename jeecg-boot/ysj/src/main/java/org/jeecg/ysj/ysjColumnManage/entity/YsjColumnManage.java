@@ -1,4 +1,4 @@
-package org.jeecg.ysj.ysjFieldManage.entity;
+package org.jeecg.ysj.ysjColumnManage.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -16,65 +16,34 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @Description: 字段管理
+ * @Description: 列管理
  * @Author: jeecg-boot
  * @Date:   2025-01-01
  * @Version: V1.0
  */
 @Data
-@TableName("ysj_field_manage")
+@TableName("ysj_column_manage")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@Schema(description="字段管理")
-public class YsjFieldManage implements Serializable {
+@Schema(description="列管理")
+public class YsjColumnManage implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**主键*/
 	@TableId(type = IdType.ASSIGN_ID)
     @Schema(description = "主键")
     private String id;
-	/**字段*/
-	@Excel(name = "字段", width = 15)
-    @Schema(description = "字段")
-    private String ysjField;
-	/**字段中文名称*/
-	@Excel(name = "字段中文名称", width = 15)
-    @Schema(description = "字段中文名称")
-    private String ysjFieldName;
-	/**字段长度*/
-	@Excel(name = "字段长度", width = 15)
-    @Schema(description = "字段长度")
-    private Integer ysjFieldLength;
-	/**字段类型*/
-	@Excel(name = "字段类型", width = 15, dicCode = "filed_type")
-	@Dict(dicCode = "filed_type")
-    @Schema(description = "字段类型")
-    private String ysjFieldType;
-	/**字典*/
-	@Excel(name = "字典", width = 15, dicCode = "yn")
-	@Dict(dicCode = "yn")
-    @Schema(description = "字典")
-    private String ysjDict;
-	/**字典编码*/
-	@Excel(name = "字典编码", width = 15, dictTable = "jimu_dict", dicText = "dict_name", dicCode = "dict_code")
-	@Dict(dictTable = "jimu_dict", dicText = "dict_name", dicCode = "dict_code")
-    @Schema(description = "字典编码")
-    private String ysjDictCode;
-	/**备注*/
-	@Excel(name = "备注", width = 15)
-    @Schema(description = "备注")
-    private String remark;
 	/**创建人*/
     @Schema(description = "创建人")
     private String createBy;
-	/**更新人*/
-    @Schema(description = "更新人")
-    private String updateBy;
 	/**创建日期*/
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Schema(description = "创建日期")
     private Date createTime;
+	/**更新人*/
+    @Schema(description = "更新人")
+    private String updateBy;
 	/**更新日期*/
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -83,4 +52,24 @@ public class YsjFieldManage implements Serializable {
 	/**所属部门*/
     @Schema(description = "所属部门")
     private String sysOrgCode;
+	/**列值*/
+	@Excel(name = "列值", width = 15, dictTable = "ysj_field_manage", dicText = "ysj_field", dicCode = "ysj_field")
+	@Dict(dictTable = "ysj_field_manage", dicText = "ysj_field", dicCode = "ysj_field")
+    @Schema(description = "列值")
+    private String ysjField;
+	/**列是否必填*/
+	@Excel(name = "列是否必填", width = 15, dicCode = "yn")
+	@Dict(dicCode = "yn")
+    @Schema(description = "列是否必填")
+    private String ysjColumnNoNull;
+	/**列中的值是否递增*/
+	@Excel(name = "列中的值是否递增", width = 15, dicCode = "yn")
+	@Dict(dicCode = "yn")
+    @Schema(description = "列中的值是否递增")
+    private String ysjColumnIncr;
+	/**列所在的表*/
+	@Excel(name = "列所在的表", width = 15, dictTable = "ysj_tb_manage", dicText = "ysj_tb_name", dicCode = "ysj_tb_name")
+	@Dict(dictTable = "ysj_tb_manage", dicText = "ysj_tb_name", dicCode = "ysj_tb_name")
+    @Schema(description = "列所在的表")
+    private String ysjTbName;
 }
