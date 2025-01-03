@@ -6,8 +6,8 @@
         <a-row :gutter="24">
           <a-col :lg="6">
             <a-form-item name="ysjInterfaceUrl">
-              <template #label><span title="字段">字段</span></template>
-              <a-input placeholder="请输入字段" v-model:value="queryParam.ysjField" allow-clear ></a-input>
+              <template #label><span title="接口地址">接口地址</span></template>
+              <a-input placeholder="请输入接口地址" v-model:value="queryParam.ysjInterfaceUrl" allow-clear ></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
@@ -29,9 +29,9 @@
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" v-auth="'ysjFieldManage:ysj_field_manage:add'"  @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-        <a-button  type="primary" v-auth="'ysjFieldManage:ysj_field_manage:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button  type="primary" v-auth="'ysjFieldManage:ysj_field_manage:importExcel'"  preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+        <a-button type="primary" v-auth="'ysjInterfaceManage:ysj_interface_manage:add'"  @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button  type="primary" v-auth="'ysjInterfaceManage:ysj_interface_manage:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+        <j-upload-button  type="primary" v-auth="'ysjInterfaceManage:ysj_interface_manage:importExcel'"  preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
@@ -41,7 +41,7 @@
               </a-menu-item>
             </a-menu>
           </template>
-          <a-button v-auth="'ysjFieldManage:ysj_field_manage:deleteBatch'">批量操作
+          <a-button v-auth="'ysjInterfaceManage:ysj_interface_manage:deleteBatch'">批量操作
             <Icon icon="mdi:chevron-down"></Icon>
           </a-button>
         </a-dropdown>
@@ -56,18 +56,18 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <YsjFieldManageModal ref="registerModal" @success="handleSuccess"></YsjFieldManageModal>
+    <YsjInterfaceManageModal ref="registerModal" @success="handleSuccess"></YsjInterfaceManageModal>
   </div>
 </template>
 
-<script lang="ts" name="ysjFieldManage-ysjFieldManage" setup>
+<script lang="ts" name="ysjInterfaceManage-ysjInterfaceManage" setup>
   import { ref, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import { columns, superQuerySchema } from './YsjFieldManage.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './YsjFieldManage.api';
+  import { columns, superQuerySchema } from './YsjInterfaceManage.data';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './YsjInterfaceManage.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  import YsjFieldManageModal from './components/YsjFieldManageModal.vue'
+  import YsjInterfaceManageModal from './components/YsjInterfaceManageModal.vue'
   import { useUserStore } from '/@/store/modules/user';
 
   const formRef = ref();
@@ -78,7 +78,7 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
-      title: '字段管理',
+      title: '接口管理',
       api: list,
       columns,
       canResize:false,
@@ -92,7 +92,7 @@
       },
     },
     exportConfig: {
-      name: "字段管理",
+      name: "接口管理",
       url: getExportUrl,
       params: queryParam,
     },
@@ -179,7 +179,7 @@
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
-        auth: 'ysjFieldManage:ysj_field_manage:edit'
+        auth: 'ysjInterfaceManage:ysj_interface_manage:edit'
       },
     ];
   }
@@ -199,7 +199,7 @@
           confirm: handleDelete.bind(null, record),
           placement: 'topLeft',
         },
-        auth: 'ysjFieldManage:ysj_field_manage:delete'
+        auth: 'ysjInterfaceManage:ysj_interface_manage:delete'
       }
     ]
   }
