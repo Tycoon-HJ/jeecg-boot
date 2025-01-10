@@ -16,6 +16,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'ysjInterfaceName'
   },
   {
+    title: '接口对象',
+    align: "center",
+    dataIndex: 'ysjInterfaceObj'
+  },
+  {
     title: '接口类型',
     align: "center",
     dataIndex: 'ysjInterfaceType_dictText'
@@ -36,7 +41,8 @@ export const columns: BasicColumn[] = [
 export const superQuerySchema = {
   ysjInterfaceUrl: {title: '接口地址',order: 0,view: 'text', type: 'string',},
   ysjInterfaceName: {title: '接口名称',order: 1,view: 'text', type: 'string',},
-  ysjInterfaceType: {title: '接口类型',order: 2,view: 'list', type: 'string',dictCode: 'interface_type',},
-  ysjInterfaceInParam: {title: '接口入参',order: 3,view: 'list', type: 'string',dictTable: "ysj_obj_manage", dictCode: 'ysj_obj', dictText: 'ysj_obj',},
-  ysjInterfaceOutParam: {title: '接口出参',order: 4,view: 'list', type: 'string',dictTable: "ysj_obj_manage", dictCode: 'ysj_obj', dictText: 'ysj_obj',},
+  ysjInterfaceObj: {title: '接口对象',order: 2,view: 'text', type: 'string',},
+  ysjInterfaceType: {title: '接口类型',order: 3,view: 'list', type: 'string',dictCode: 'interface_type',},
+  ysjInterfaceInParam: {title: '接口入参',order: 4,view: 'list', type: 'string',dictTable: "ysj_obj_manage", dictCode: 'ysj_obj', dictText: 'ysj_obj',},
+  ysjInterfaceOutParam: {title: '接口出参',order: 5,view: 'list', type: 'string',dictTable: "ysj_obj_manage", dictCode: 'ysj_obj', dictText: 'ysj_obj',},
 };

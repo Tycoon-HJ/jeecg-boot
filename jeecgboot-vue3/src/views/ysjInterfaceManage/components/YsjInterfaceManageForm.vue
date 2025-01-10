@@ -15,6 +15,11 @@
 							</a-form-item>
 						</a-col>
 						<a-col :span="24">
+							<a-form-item label="接口对象" v-bind="validateInfos.ysjInterfaceObj" id="YsjInterfaceManageForm-ysjInterfaceObj" name="ysjInterfaceObj">
+								<a-input v-model:value="formData.ysjInterfaceObj" placeholder="请输入接口对象"  allow-clear ></a-input>
+							</a-form-item>
+						</a-col>
+						<a-col :span="24">
 							<a-form-item label="接口类型" v-bind="validateInfos.ysjInterfaceType" id="YsjInterfaceManageForm-ysjInterfaceType" name="ysjInterfaceType">
 								<j-dict-select-tag v-model:value="formData.ysjInterfaceType" dictCode="interface_type" placeholder="请选择接口类型"  allow-clear />
 							</a-form-item>
@@ -45,6 +50,7 @@
   import { saveOrUpdate } from '../YsjInterfaceManage.api';
   import { Form } from 'ant-design-vue';
   import JFormContainer from '/@/components/Form/src/container/JFormContainer.vue';
+  import { duplicateValidate } from '/@/utils/helper/validator'
   const props = defineProps({
     formDisabled: { type: Boolean, default: false },
     formData: { type: Object, default: () => ({})},
@@ -57,6 +63,7 @@
     id: '',
     ysjInterfaceUrl: '',   
     ysjInterfaceName: '',   
+    ysjInterfaceObj: '',   
     ysjInterfaceType: '',   
     ysjInterfaceInParam: '',   
     ysjInterfaceOutParam: '',   
@@ -67,7 +74,7 @@
   const confirmLoading = ref<boolean>(false);
   //表单验证
   const validatorRules = reactive({
-    ysjInterfaceUrl: [{ required: true, message: '请输入接口地址!'},],
+    ysjInterfaceUrl: [{ required: true, message: '请输入接口地址!'}, { validator: ysjInterfaceUrlDuplicatevalidate }],
     ysjInterfaceName: [{ required: true, message: '请输入接口名称!'},],
     ysjInterfaceType: [{ required: true, message: '请输入接口类型!'},],
   });
@@ -159,6 +166,9 @@
   }
 
 
+  async function ysjInterfaceUrlDuplicatevalidate(_r, value) {
+    return duplicateValidate('ysj_interface_manage', 'ysj_interface_url', value, formData.id || '')
+  }
   defineExpose({
     add,
     edit,

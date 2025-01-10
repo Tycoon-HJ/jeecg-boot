@@ -1,6 +1,8 @@
 package org.jeecg.config.shiro;
 
-import lombok.SneakyThrows;
+import jakarta.annotation.Resource;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.Filter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
@@ -18,25 +20,19 @@ import org.jeecg.config.shiro.filters.CustomShiroFilterFactoryBean;
 import org.jeecg.config.shiro.filters.JwtFilter;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.*;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.core.env.Environment;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.env.Environment;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.Filter;
-import jakarta.servlet.DispatcherType;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -102,6 +98,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/auth/2step-code", "anon");//登录验证码
         filterChainDefinitionMap.put("/sys/common/static/**", "anon");//图片预览 &下载文件不限制token
         filterChainDefinitionMap.put("/sys/common/pdf/**", "anon");//pdf预览
+        filterChainDefinitionMap.put("/xx", "anon");//pdf预览
 
         //filterChainDefinitionMap.put("/sys/common/view/**", "anon");//图片预览不限制token
         //filterChainDefinitionMap.put("/sys/common/download/**", "anon");//文件下载不限制token

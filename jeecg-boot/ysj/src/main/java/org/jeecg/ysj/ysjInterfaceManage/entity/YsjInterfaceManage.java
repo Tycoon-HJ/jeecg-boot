@@ -18,7 +18,7 @@ import java.util.Date;
 /**
  * @Description: 接口管理
  * @Author: jeecg-boot
- * @Date:   2025-01-03
+ * @Date: 2025-01-09
  * @Version: V1.0
  */
 @Data
@@ -60,6 +60,12 @@ public class YsjInterfaceManage implements Serializable {
 	@Excel(name = "接口名称", width = 15)
     @Schema(description = "接口名称")
     private String ysjInterfaceName;
+    /**
+     * 接口对象
+     */
+    @Excel(name = "接口对象", width = 15)
+    @Schema(description = "接口对象")
+    private String ysjInterfaceObj;
 	/**接口类型*/
 	@Excel(name = "接口类型", width = 15, dicCode = "interface_type")
 	@Dict(dicCode = "interface_type")
