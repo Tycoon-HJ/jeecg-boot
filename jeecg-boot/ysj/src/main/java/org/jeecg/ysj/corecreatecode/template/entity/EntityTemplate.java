@@ -1,5 +1,7 @@
 package org.jeecg.ysj.corecreatecode.template.entity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -33,6 +35,8 @@ public class EntityTemplate {
         int i = fieldType.lastIndexOf(".");
         field.setFieldType(fieldType.substring(i + 1));
         field.setFieldName(fieldName);
+        field.setFieldSetName("set" + StringUtils.capitalize(fieldName));
+        field.setFieldGetName("get" + StringUtils.capitalize(fieldName));
         fields.add(field);
     }
 
@@ -63,6 +67,25 @@ public class EntityTemplate {
         private String fieldType;
         // 成员属性名称
         private String fieldName;
+
+        private String fieldSetName;
+        private String fieldGetName;
+
+        public String getFieldSetName() {
+            return fieldSetName;
+        }
+
+        public void setFieldSetName(String fieldSetName) {
+            this.fieldSetName = fieldSetName;
+        }
+
+        public String getFieldGetName() {
+            return fieldGetName;
+        }
+
+        public void setFieldGetName(String fieldGetName) {
+            this.fieldGetName = fieldGetName;
+        }
 
         public String getFieldType() {
             return fieldType;

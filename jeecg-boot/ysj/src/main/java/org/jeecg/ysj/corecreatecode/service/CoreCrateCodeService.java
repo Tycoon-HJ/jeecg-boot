@@ -35,6 +35,9 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -202,14 +205,33 @@ public class CoreCrateCodeService {
      */
     public void crateEntityJavaCode(String rootPath, String templatePath, String templateName, EntityTemplate entityTemplate) throws Exception {
 
-        // 对象类名 PageINDTO todo
+        // 对象类名
         String entityName = entityTemplate.getEntityName();
         LambdaQueryWrapper<YsjObjFieldManage> ysjObjManageLambdaQueryWrapper = new LambdaQueryWrapper<>();
         ysjObjManageLambdaQueryWrapper.eq(YsjObjFieldManage::getYsjObj, entityName);
         List<YsjObjFieldManage> ysjObjFieldManageList = iYsjObjFieldManageService.list(ysjObjManageLambdaQueryWrapper);
         ysjObjFieldManageList.forEach(e -> {
             // 替换String.class类型
-            entityTemplate.addField(String.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
+            LambdaQueryWrapper<YsjFieldManage> ysjFieldManageLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            ysjFieldManageLambdaQueryWrapper.eq(YsjFieldManage::getYsjField, e.getYsjField());
+            YsjFieldManage ysjFieldManage = iYsjFieldManageService.getOne(ysjFieldManageLambdaQueryWrapper);
+            // 后续这里优化一下
+            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "0")) {
+                entityTemplate.addField(String.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
+            }
+            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "1")) {
+                entityTemplate.addField(BigDecimal.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
+            }
+            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "2")) {
+                entityTemplate.addField(LocalDateTime.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
+            }
+            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "3")) {
+                entityTemplate.addField(LocalDate.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
+            }
+            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "4")) {
+                entityTemplate.addField(String.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
+            }
+
         });
         // freemarker 配置
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);

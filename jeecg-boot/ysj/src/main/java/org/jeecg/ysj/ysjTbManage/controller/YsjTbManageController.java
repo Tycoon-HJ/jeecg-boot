@@ -52,7 +52,7 @@ public class YsjTbManageController extends JeecgController<YsjTbManage, IYsjTbMa
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
         QueryWrapper<YsjTbManage> queryWrapper = QueryGenerator.initQueryWrapper(ysjTbManage, req.getParameterMap());
-		Page<YsjTbManage> page = new Page<YsjTbManage>(pageNo, pageSize);
+		Page<YsjTbManage> page = new Page<>(pageNo, pageSize);
 		IPage<YsjTbManage> pageList = ysjTbManageService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
