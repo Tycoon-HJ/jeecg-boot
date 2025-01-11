@@ -27,6 +27,8 @@ import org.jeecg.ysj.ysjObjFieldManage.entity.YsjObjFieldManage;
 import org.jeecg.ysj.ysjObjFieldManage.service.IYsjObjFieldManageService;
 import org.jeecg.ysj.ysjObjManage.entity.YsjObjManage;
 import org.jeecg.ysj.ysjObjManage.service.IYsjObjManageService;
+import org.jeecg.ysj.ysjTbManage.entity.YsjTbManage;
+import org.jeecg.ysj.ysjTbManage.service.IYsjTbManageService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,8 @@ public class CoreCrateCodeService {
     private IYsjObjManageService iYsjObjManageService;
     @Resource
     private IYsjObjFieldManageService iYsjObjFieldManageService;
+    @Resource
+    private IYsjTbManageService iYsjTbManageService;
 
     /**
      * 自动生成sql
@@ -62,7 +66,8 @@ public class CoreCrateCodeService {
      * @param t
      * @throws Exception
      */
-    public <T> void autoCrateDataTemplate(String templatePath, String templateName, String targetSqlPath, T t) throws Exception {
+    public <T> String autoCrateDataTemplate(String templatePath, String templateName, String targetSqlPath, T t) throws Exception {
+        String sql = "";
         // freemarker 配置
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         configuration.setDefaultEncoding("UTF-8");
@@ -77,22 +82,30 @@ public class CoreCrateCodeService {
         String source = FileUtils.readFileToString(new File(targetSqlPath), "UTF-8");
         // 格式化SQL代码
         if (t instanceof SqlTemplate) {
-            String format = SQLUtils.format(source, JdbcConstants.MYSQL);
-            System.out.println(format);
+            sql = SQLUtils.format(source, JdbcConstants.MYSQL);
         }
+        return sql;
     }
 
     /**
      * 创造表
      *
-     * @param tableName
-     * @param sqlTemplate
+     * @param id
      * @param templatePath
      * @param templateName
      * @param targetSqlPath
      * @throws Exception
      */
-    public void crateTable(String tableName, SqlTemplate sqlTemplate, String templatePath, String templateName, String targetSqlPath) throws Exception {
+    public String crateTable(String id, String templatePath, String templateName, String targetSqlPath) throws Exception {
+        LambdaQueryWrapper<YsjTbManage> ysjTbManageLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        ysjTbManageLambdaQueryWrapper.eq(YsjTbManage::getId, id);
+        YsjTbManage ysjTbManage = iYsjTbManageService.getOne(ysjTbManageLambdaQueryWrapper);
+        if (ysjTbManage == null) {
+            return "";
+        }
+        String tableName = ysjTbManage.getYsjTbName();
+        SqlTemplate sqlTemplate = new SqlTemplate();
+        sqlTemplate.setTableName(tableName);
         // 这里必须要LinkedHashSet，否则会出错
         LambdaQueryWrapper<YsjColumnManage> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(YsjColumnManage::getYsjTbName, tableName);
@@ -125,7 +138,7 @@ public class CoreCrateCodeService {
         sqlTemplate.setUniqueIndexSet(indexSet.stream().filter(e -> Objects.equals(e.getIndexType(), "1")).collect(Collectors.toSet()));
         // 一般索引
         sqlTemplate.setConstraintIndexSet(indexSet.stream().filter(e -> Objects.equals(e.getIndexType(), "0")).collect(Collectors.toSet()));
-        this.autoCrateDataTemplate(templatePath, templateName, targetSqlPath, sqlTemplate);
+        return this.autoCrateDataTemplate(templatePath, templateName, targetSqlPath, sqlTemplate);
     }
 
     /**

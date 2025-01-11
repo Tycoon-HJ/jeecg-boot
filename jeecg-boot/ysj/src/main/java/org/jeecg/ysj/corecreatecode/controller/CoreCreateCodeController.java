@@ -1,32 +1,33 @@
 package org.jeecg.ysj.corecreatecode.controller;
 
 import jakarta.annotation.Resource;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jeecg.common.api.vo.Result;
 import org.jeecg.ysj.corecreatecode.service.CoreCrateCodeService;
 import org.jeecg.ysj.corecreatecode.template.entity.EntityTemplate;
-import org.jeecg.ysj.corecreatecode.template.sql.SqlTemplate;
 import org.jeecg.ysj.ysjObjManage.entity.YsjObjManage;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.Objects;
 
+@RequestMapping("/ysjTbManage/ysjTbManage")
 @RestController
 public class CoreCreateCodeController {
     @Resource
     private CoreCrateCodeService coreCrateCodeService;
 
-
-    @GetMapping("/xx1")
-    public void coreCreateSql() throws Exception {
+    @GetMapping("/autoCrateSql")
+    @RequiresPermissions("ysjTbManage:ysj_tb_manage:autoCrateSql")
+    public Result<String> coreCreateSql(@RequestParam(name = "id", required = true) String id) throws Exception {
         // 路径根据自己项目的特点调整
         String targetSqlPath = "/Users/mr.ahai/IdeaProjects/JeecgBoot/jeecg-boot/ysj/src/main/java/org/jeecg/ysj/corecreatecode/service/a.sql";
         String templatePath = "/Users/mr.ahai/IdeaProjects/JeecgBoot/jeecg-boot/ysj/src/main/resources/template";
         String templateName = "AutoSql.ftl";
-        String tableName = "ysj_obj_manage";
-        SqlTemplate sqlTemplate = new SqlTemplate();
-        sqlTemplate.setTableName("ysj_obj_manage");
-        coreCrateCodeService.crateTable(tableName, sqlTemplate, templatePath, templateName, targetSqlPath);
+        return Result.ok(coreCrateCodeService.crateTable(id, templatePath, templateName, targetSqlPath));
     }
 
     @GetMapping("/xx")

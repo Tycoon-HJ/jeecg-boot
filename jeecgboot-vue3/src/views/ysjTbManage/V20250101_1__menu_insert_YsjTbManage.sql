@@ -24,3 +24,6 @@ VALUES ('2025010105106900155', '2025010105106900150', '导出excel_表管理', N
 -- 导入excel
 INSERT INTO sys_permission(id, parent_id, name, url, component, is_route, component_name, redirect, menu_type, perms, perms_type, sort_no, always_show, icon, is_leaf, keep_alive, hidden, hide_tab, description, create_by, create_time, update_by, update_time, del_flag, rule_flag, status, internal_or_external)
 VALUES ('2025010105106900156', '2025010105106900150', '导入excel_表管理', NULL, NULL, 0, NULL, NULL, 2, 'ysjTbManage:ysj_tb_manage:importExcel', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2025-01-01 17:10:15', NULL, NULL, 0, 0, '1', 0);
+-- 自动生成SQL
+INSERT INTO sys_permission(id, parent_id, name, url, component, is_route, component_name, redirect, menu_type, perms, perms_type, sort_no, always_show, icon, is_leaf, keep_alive, hidden, hide_tab, description, create_by, create_time, update_by, update_time, del_flag, rule_flag, status, internal_or_external)
+VALUES ('2025010105106900157', '2025010105106900150', '自动生成SQL', NULL, NULL, 0, NULL, NULL, 2, 'ysjTbManage:ysj_tb_manage:autoCrateSql', '1', NULL, 0, NULL, 1, 0, 0, 0, NULL, 'admin', '2025-01-01 17:10:15', NULL, NULL, 0, 0, '1', 0);
