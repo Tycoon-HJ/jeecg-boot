@@ -92,7 +92,7 @@ public class YsjObjFieldManageController extends JeecgController<YsjObjFieldMana
 	@RequiresPermissions("ysjObjFieldManage:ysj_obj_field_manage:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody YsjObjFieldManage ysjObjFieldManage) {
-		ysjObjFieldManageService.updateById(ysjObjFieldManage);
+		ysjObjFieldManageService.updateWithNull(ysjObjFieldManage);
 		return Result.OK("编辑成功!");
 	}
 	

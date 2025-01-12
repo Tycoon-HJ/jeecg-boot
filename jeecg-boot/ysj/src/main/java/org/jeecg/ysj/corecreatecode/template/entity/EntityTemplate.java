@@ -22,7 +22,7 @@ public class EntityTemplate {
         this.pkg = pkg;
     }
 
-    public void addField(Class<?> type, String fieldName) {
+    public void addField(Class<?> type, String fieldName, String fieldBaseNum) {
         // 处理 java.lang
         final String pattern = "java.lang";
         String fieldType = type.getName();
@@ -33,6 +33,44 @@ public class EntityTemplate {
         Field field = new Field();
         // 处理成员属性的格式
         int i = fieldType.lastIndexOf(".");
+        if (Objects.equals(fieldBaseNum, "2") || Objects.equals(fieldBaseNum, "3")) {
+            imports.add("java.util.List");
+            field.setFieldType("List<" + fieldType.substring(i + 1) + ">");
+            field.setFieldName(fieldName + "List");
+            field.setFieldSetName("set" + StringUtils.capitalize(fieldName) + "List");
+            field.setFieldGetName("get" + StringUtils.capitalize(fieldName) + "List");
+            fields.add(field);
+            return;
+        }
+        field.setFieldType(fieldType.substring(i + 1));
+        field.setFieldName(fieldName);
+        field.setFieldSetName("set" + StringUtils.capitalize(fieldName));
+        field.setFieldGetName("get" + StringUtils.capitalize(fieldName));
+        fields.add(field);
+    }
+
+    /**
+     * 创建DTO中的类型为自建对象时，为避免无法使用Class，使用字符串进行设值
+     *
+     * @param fieldType
+     * @param fieldName
+     * @param fieldBaseNum
+     */
+    public void addField(String fieldType, String fieldName, String fieldBaseNum) {
+        fieldName = StringUtils.uncapitalize(fieldName);
+        imports.add(fieldType);
+        Field field = new Field();
+        // 处理成员属性的格式
+        int i = fieldType.lastIndexOf(".");
+        if (Objects.equals(fieldBaseNum, "2") || Objects.equals(fieldBaseNum, "3")) {
+            imports.add("java.util.List");
+            field.setFieldType("List<" + fieldType.substring(i + 1) + ">");
+            field.setFieldName(fieldName + "List");
+            field.setFieldSetName("set" + StringUtils.capitalize(fieldName) + "List");
+            field.setFieldGetName("get" + StringUtils.capitalize(fieldName) + "List");
+            fields.add(field);
+            return;
+        }
         field.setFieldType(fieldType.substring(i + 1));
         field.setFieldName(fieldName);
         field.setFieldSetName("set" + StringUtils.capitalize(fieldName));

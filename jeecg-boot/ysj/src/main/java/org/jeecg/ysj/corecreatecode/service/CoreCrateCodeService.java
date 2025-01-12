@@ -186,9 +186,11 @@ public class CoreCrateCodeService {
         interfaceTemplate.setInputParamObj(StringUtils.uncapitalize(ysjInterfaceInParam));
         if (Objects.equals(ysjInObjManage.getYsjObjBaseNum(), "3") || Objects.equals(ysjInObjManage.getYsjObjBaseNum(), "4")) {
             interfaceTemplate.setInputParam("List<" + ysjInterfaceInParam + ">");
+            interfaceTemplate.setImports("java.util.List");
         }
         if (Objects.equals(ysjOutObjManage.getYsjObjBaseNum(), "3") || Objects.equals(ysjOutObjManage.getYsjObjBaseNum(), "4")) {
             interfaceTemplate.setOutputParam("List<" + ysjInterfaceInParam + ">");
+            interfaceTemplate.setImports("java.util.List");
         }
         interfaceTemplate.setOutputParam(ysjInterfaceOutParam);
         interfaceTemplate.setInputParamBaseNum(ysjInObjManage.getYsjObjBaseNum());
@@ -215,22 +217,29 @@ public class CoreCrateCodeService {
             LambdaQueryWrapper<YsjFieldManage> ysjFieldManageLambdaQueryWrapper = new LambdaQueryWrapper<>();
             ysjFieldManageLambdaQueryWrapper.eq(YsjFieldManage::getYsjField, e.getYsjField());
             YsjFieldManage ysjFieldManage = iYsjFieldManageService.getOne(ysjFieldManageLambdaQueryWrapper);
-            // 后续这里优化一下
-            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "0")) {
-                entityTemplate.addField(String.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
+
+            if (Objects.nonNull(e.getYsjField())) {
+                // 后续这里优化一下 TODO
+                if (Objects.equals(ysjFieldManage.getYsjFieldType(), "0")) {
+                    entityTemplate.addField(String.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()), e.getYsjFieldBaseNum());
+                }
+                if (Objects.equals(ysjFieldManage.getYsjFieldType(), "1")) {
+                    entityTemplate.addField(BigDecimal.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()), e.getYsjFieldBaseNum());
+                }
+                if (Objects.equals(ysjFieldManage.getYsjFieldType(), "2")) {
+                    entityTemplate.addField(LocalDateTime.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()), e.getYsjFieldBaseNum());
+                }
+                if (Objects.equals(ysjFieldManage.getYsjFieldType(), "3")) {
+                    entityTemplate.addField(LocalDate.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()), e.getYsjFieldBaseNum());
+                }
+                if (Objects.equals(ysjFieldManage.getYsjFieldType(), "4")) {
+                    entityTemplate.addField(String.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()), e.getYsjFieldBaseNum());
+                }
+            } else {
+                // 填充对象
+                entityTemplate.addField(entityTemplate.getPkg() + "." + e.getYsjInnerObj(), e.getYsjInnerObj(), e.getYsjFieldBaseNum());
             }
-            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "1")) {
-                entityTemplate.addField(BigDecimal.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
-            }
-            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "2")) {
-                entityTemplate.addField(LocalDateTime.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
-            }
-            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "3")) {
-                entityTemplate.addField(LocalDate.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
-            }
-            if (Objects.equals(ysjFieldManage.getYsjFieldType(), "4")) {
-                entityTemplate.addField(String.class, CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, e.getYsjField()));
-            }
+
 
         });
         // freemarker 配置

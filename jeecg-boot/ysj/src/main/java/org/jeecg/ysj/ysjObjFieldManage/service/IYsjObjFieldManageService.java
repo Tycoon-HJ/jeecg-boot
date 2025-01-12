@@ -10,5 +10,5 @@ import org.jeecg.ysj.ysjObjFieldManage.entity.YsjObjFieldManage;
  * @Version: V1.0
  */
 public interface IYsjObjFieldManageService extends IService<YsjObjFieldManage> {
-
+    void updateWithNull(YsjObjFieldManage ysjObjFieldManage);
 }

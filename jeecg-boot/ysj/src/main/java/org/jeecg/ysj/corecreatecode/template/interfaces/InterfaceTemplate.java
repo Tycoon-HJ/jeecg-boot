@@ -1,5 +1,8 @@
 package org.jeecg.ysj.corecreatecode.template.interfaces;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 public class InterfaceTemplate {
     private String pkg;
     private String url;
@@ -11,6 +14,8 @@ public class InterfaceTemplate {
     private String outputParam;
     private String inputParamBaseNum;
     private String outputParamBaseNum;
+    private final Set<String> imports = new LinkedHashSet<>();
+
 
     public String getPkg() {
         return pkg;
@@ -90,5 +95,13 @@ public class InterfaceTemplate {
 
     public void setOutputParamBaseNum(String outputParamBaseNum) {
         this.outputParamBaseNum = outputParamBaseNum;
+    }
+
+    public Set<String> getImports() {
+        return imports;
+    }
+
+    public void setImports(String imp) {
+        imports.add(imp);
     }
 }
