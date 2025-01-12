@@ -1,5 +1,6 @@
 package org.jeecg.ysj.corecreatecode.template.entity;
 
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashSet;
@@ -30,23 +31,7 @@ public class EntityTemplate {
             // 处理导包
             imports.add(fieldType);
         }
-        Field field = new Field();
-        // 处理成员属性的格式
-        int i = fieldType.lastIndexOf(".");
-        if (Objects.equals(fieldBaseNum, "2") || Objects.equals(fieldBaseNum, "3")) {
-            imports.add("java.util.List");
-            field.setFieldType("List<" + fieldType.substring(i + 1) + ">");
-            field.setFieldName(fieldName + "List");
-            field.setFieldSetName("set" + StringUtils.capitalize(fieldName) + "List");
-            field.setFieldGetName("get" + StringUtils.capitalize(fieldName) + "List");
-            fields.add(field);
-            return;
-        }
-        field.setFieldType(fieldType.substring(i + 1));
-        field.setFieldName(fieldName);
-        field.setFieldSetName("set" + StringUtils.capitalize(fieldName));
-        field.setFieldGetName("get" + StringUtils.capitalize(fieldName));
-        fields.add(field);
+        this.fillField(fieldType, fieldName, fieldBaseNum);
     }
 
     /**
@@ -59,23 +44,7 @@ public class EntityTemplate {
     public void addField(String fieldType, String fieldName, String fieldBaseNum) {
         fieldName = StringUtils.uncapitalize(fieldName);
         imports.add(fieldType);
-        Field field = new Field();
-        // 处理成员属性的格式
-        int i = fieldType.lastIndexOf(".");
-        if (Objects.equals(fieldBaseNum, "2") || Objects.equals(fieldBaseNum, "3")) {
-            imports.add("java.util.List");
-            field.setFieldType("List<" + fieldType.substring(i + 1) + ">");
-            field.setFieldName(fieldName + "List");
-            field.setFieldSetName("set" + StringUtils.capitalize(fieldName) + "List");
-            field.setFieldGetName("get" + StringUtils.capitalize(fieldName) + "List");
-            fields.add(field);
-            return;
-        }
-        field.setFieldType(fieldType.substring(i + 1));
-        field.setFieldName(fieldName);
-        field.setFieldSetName("set" + StringUtils.capitalize(fieldName));
-        field.setFieldGetName("get" + StringUtils.capitalize(fieldName));
-        fields.add(field);
+        this.fillField(fieldType, fieldName, fieldBaseNum);
     }
 
     public String getPkg() {
@@ -96,51 +65,37 @@ public class EntityTemplate {
         return imports;
     }
 
+    private void fillField(String fieldType, String fieldName, String fieldBaseNum) {
+        Field field = new Field();
+        // 处理成员属性的格式
+        int i = fieldType.lastIndexOf(".");
+        if (Objects.equals(fieldBaseNum, "2") || Objects.equals(fieldBaseNum, "3")) {
+            imports.add("java.util.List");
+            field.setFieldType("List<" + fieldType.substring(i + 1) + ">");
+            field.setFieldName(fieldName + "List");
+            field.setFieldSetName("set" + StringUtils.capitalize(fieldName) + "List");
+            field.setFieldGetName("get" + StringUtils.capitalize(fieldName) + "List");
+            fields.add(field);
+            return;
+        }
+        field.setFieldType(fieldType.substring(i + 1));
+        field.setFieldName(fieldName);
+        field.setFieldSetName("set" + StringUtils.capitalize(fieldName));
+        field.setFieldGetName("get" + StringUtils.capitalize(fieldName));
+        fields.add(field);
+    }
 
     /**
      * 成员属性封装对象.
      */
+    @Data
     public static class Field {
         // 成员属性类型
         private String fieldType;
         // 成员属性名称
         private String fieldName;
-
         private String fieldSetName;
         private String fieldGetName;
-
-        public String getFieldSetName() {
-            return fieldSetName;
-        }
-
-        public void setFieldSetName(String fieldSetName) {
-            this.fieldSetName = fieldSetName;
-        }
-
-        public String getFieldGetName() {
-            return fieldGetName;
-        }
-
-        public void setFieldGetName(String fieldGetName) {
-            this.fieldGetName = fieldGetName;
-        }
-
-        public String getFieldType() {
-            return fieldType;
-        }
-
-        public void setFieldType(String fieldType) {
-            this.fieldType = fieldType;
-        }
-
-        public String getFieldName() {
-            return fieldName;
-        }
-
-        public void setFieldName(String fieldName) {
-            this.fieldName = fieldName;
-        }
-
         /**
          * 一个类的成员属性 一个名称只能出现一次
          * 我们可以通过覆写equals hash 方法 然后放入Set

@@ -146,6 +146,12 @@ public class CoreCrateCodeService {
      * 创建java代码
      *
      * @param url
+     * @param targetSqlPath
+     * @param templatePath
+     * @param templateName
+     * @param packageName
+     * @return
+     * @throws Exception
      */
     public Map<String, YsjObjManage> coreCreateJavaCode(String url, String targetSqlPath, String templatePath, String templateName, String packageName) throws Exception {
 
