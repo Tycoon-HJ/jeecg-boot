@@ -34,6 +34,7 @@ public class YsjObjFieldManageServiceImpl extends ServiceImpl<YsjObjFieldManageM
         updateWrapper.set(YsjObjFieldManage::getYsjObj, ysjObjFieldManage.getYsjObj());
         updateWrapper.set(YsjObjFieldManage::getYsjField, ysjObjFieldManage.getYsjField());
         updateWrapper.set(YsjObjFieldManage::getYsjInnerObj, ysjObjFieldManage.getYsjInnerObj());
+        updateWrapper.set(YsjObjFieldManage::getYsjFieldBaseNum, ysjObjFieldManage.getYsjFieldBaseNum());
         updateWrapper.set(YsjObjFieldManage::getUpdateBy, ((LoginUser) SecurityUtils.getSubject().getPrincipal()).getUsername());
         updateWrapper.set(YsjObjFieldManage::getUpdateTime, LocalDateTime.now());
         updateWrapper.eq(YsjObjFieldManage::getId, ysjObjFieldManage.getId());

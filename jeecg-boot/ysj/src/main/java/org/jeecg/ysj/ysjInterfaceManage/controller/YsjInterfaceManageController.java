@@ -83,7 +83,7 @@ public class YsjInterfaceManageController extends JeecgController<YsjInterfaceMa
 	@RequiresPermissions("ysjInterfaceManage:ysj_interface_manage:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody YsjInterfaceManage ysjInterfaceManage) {
-		ysjInterfaceManageService.updateById(ysjInterfaceManage);
+		ysjInterfaceManageService.updateWithNull(ysjInterfaceManage);
 		return Result.OK("编辑成功!");
 	}
 	

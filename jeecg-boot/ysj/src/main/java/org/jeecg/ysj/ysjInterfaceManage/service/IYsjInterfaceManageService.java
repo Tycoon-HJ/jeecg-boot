@@ -10,5 +10,5 @@ import org.jeecg.ysj.ysjInterfaceManage.entity.YsjInterfaceManage;
  * @Version: V1.0
  */
 public interface IYsjInterfaceManageService extends IService<YsjInterfaceManage> {
-
+    void updateWithNull(YsjInterfaceManage ysjInterfaceManage);
 }

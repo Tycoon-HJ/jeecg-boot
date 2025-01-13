@@ -14,6 +14,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.query.QueryRuleEnum;
+import org.jeecg.ysj.ysjObjFieldManage.domain.YsjObjFieldManageDO;
 import org.jeecg.ysj.ysjObjFieldManage.entity.YsjObjFieldManage;
 import org.jeecg.ysj.ysjObjFieldManage.service.IYsjObjFieldManageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,8 @@ public class YsjObjFieldManageController extends JeecgController<YsjObjFieldMana
 	@RequiresPermissions("ysjObjFieldManage:ysj_obj_field_manage:add")
 	@PostMapping(value = "/add")
 	public Result<String> add(@RequestBody YsjObjFieldManage ysjObjFieldManage) {
+		YsjObjFieldManageDO ysjObjFieldManageDO = new YsjObjFieldManageDO();
+		ysjObjFieldManageDO.checkYsjFieldAndYsjInnerObj(ysjObjFieldManage);
 		ysjObjFieldManageService.save(ysjObjFieldManage);
 		return Result.OK("添加成功！");
 	}
@@ -92,6 +95,8 @@ public class YsjObjFieldManageController extends JeecgController<YsjObjFieldMana
 	@RequiresPermissions("ysjObjFieldManage:ysj_obj_field_manage:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody YsjObjFieldManage ysjObjFieldManage) {
+		YsjObjFieldManageDO ysjObjFieldManageDO = new YsjObjFieldManageDO();
+		ysjObjFieldManageDO.checkYsjFieldAndYsjInnerObj(ysjObjFieldManage);
 		ysjObjFieldManageService.updateWithNull(ysjObjFieldManage);
 		return Result.OK("编辑成功!");
 	}

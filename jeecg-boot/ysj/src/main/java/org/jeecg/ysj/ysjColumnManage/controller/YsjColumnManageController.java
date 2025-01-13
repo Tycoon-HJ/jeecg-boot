@@ -83,7 +83,7 @@ public class YsjColumnManageController extends JeecgController<YsjColumnManage, 
 	@RequiresPermissions("ysjColumnManage:ysj_column_manage:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody YsjColumnManage ysjColumnManage) {
-		ysjColumnManageService.updateById(ysjColumnManage);
+		ysjColumnManageService.updateWithNull(ysjColumnManage);
 		return Result.OK("编辑成功!");
 	}
 	

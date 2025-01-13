@@ -52,7 +52,7 @@ public class YsjIndexManageController extends JeecgController<YsjIndexManage, IY
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
         QueryWrapper<YsjIndexManage> queryWrapper = QueryGenerator.initQueryWrapper(ysjIndexManage, req.getParameterMap());
-		Page<YsjIndexManage> page = new Page<YsjIndexManage>(pageNo, pageSize);
+		Page<YsjIndexManage> page = new Page<>(pageNo, pageSize);
 		IPage<YsjIndexManage> pageList = ysjIndexManageService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
@@ -83,7 +83,7 @@ public class YsjIndexManageController extends JeecgController<YsjIndexManage, IY
 	@RequiresPermissions("ysjIndexManage:ysj_index_manage:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody YsjIndexManage ysjIndexManage) {
-		ysjIndexManageService.updateById(ysjIndexManage);
+		ysjIndexManageService.updateWithNull(ysjIndexManage);
 		return Result.OK("编辑成功!");
 	}
 	
