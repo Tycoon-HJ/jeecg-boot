@@ -10,6 +10,7 @@ import jakarta.annotation.Resource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jeecg.common.constant.enums.FieldTypeEnum;
+import org.jeecg.common.exception.JeecgBootBizTipException;
 import org.jeecg.common.util.YsjCommonUtil;
 import org.jeecg.ysj.corecreatecode.template.entity.EntityTemplate;
 import org.jeecg.ysj.corecreatecode.template.interfaces.InterfaceTemplate;
@@ -101,8 +102,8 @@ public class CoreCrateCodeService {
         LambdaQueryWrapper<YsjTbManage> ysjTbManageLambdaQueryWrapper = new LambdaQueryWrapper<>();
         ysjTbManageLambdaQueryWrapper.eq(YsjTbManage::getId, id);
         YsjTbManage ysjTbManage = iYsjTbManageService.getOne(ysjTbManageLambdaQueryWrapper);
-        if (ysjTbManage == null) {
-            return "";
+        if (Objects.isNull(ysjTbManage)) {
+            throw new JeecgBootBizTipException("未查到表，无法生成sql");
         }
         String tableName = ysjTbManage.getYsjTbName();
         SqlTemplate sqlTemplate = new SqlTemplate();
@@ -159,12 +160,10 @@ public class CoreCrateCodeService {
         LambdaQueryWrapper<YsjInterfaceManage> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(YsjInterfaceManage::getYsjInterfaceUrl, url);
         YsjInterfaceManage ysjInterfaceManage = iYsjInterfaceManageService.getOne(lambdaQueryWrapper);
-
         // 入参
         String ysjInterfaceInParam = ysjInterfaceManage.getYsjInterfaceInParam();
         // 出参
         String ysjInterfaceOutParam = ysjInterfaceManage.getYsjInterfaceOutParam();
-
         YsjObjManage ysjInObjManage = null;
         YsjObjManage ysjOutObjManage = null;
         // 若存在入参
@@ -193,7 +192,7 @@ public class CoreCrateCodeService {
             interfaceTemplate.setImports("java.util.List");
         }
         if (Objects.equals(ysjOutObjManage.getYsjObjBaseNum(), "3") || Objects.equals(ysjOutObjManage.getYsjObjBaseNum(), "4")) {
-            interfaceTemplate.setOutputParam("List<" + ysjInterfaceInParam + ">");
+            interfaceTemplate.setOutputParam("List<" + ysjInterfaceOutParam + ">");
             interfaceTemplate.setImports("java.util.List");
         }
         interfaceTemplate.setOutputParam(ysjInterfaceOutParam);
@@ -230,7 +229,6 @@ public class CoreCrateCodeService {
         });
         // freemarker 配置
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-
         configuration.setDefaultEncoding("UTF-8");
         // 指定模板的路径
         configuration.setDirectoryForTemplateLoading(new File(templatePath));
@@ -240,10 +238,7 @@ public class CoreCrateCodeService {
         final String ext = ".java";
         String javaName = entityTemplate.getEntityName().concat(ext);
         String packageName = entityTemplate.getPkg();
-
-        String out = rootPath.concat(Stream.of(packageName.split("\\."))
-                .collect(Collectors.joining("/", "/", "/" + javaName)));
-
+        String out = rootPath.concat(Stream.of(packageName.split("\\.")).collect(Collectors.joining("/", "/", "/" + javaName)));
         // 定义一个输出流来导出代码文件
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(out));
         // freemarker 引擎将动态数据绑定的模板并导出为文件
