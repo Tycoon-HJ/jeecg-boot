@@ -99,6 +99,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/sys/common/static/**", "anon");//图片预览 &下载文件不限制token
         filterChainDefinitionMap.put("/sys/common/pdf/**", "anon");//pdf预览
         filterChainDefinitionMap.put("/ysjTbManage/ysjTbManage/xx", "anon");//代码生成
+        filterChainDefinitionMap.put("/xxxx", "anon");//代码生成
+        filterChainDefinitionMap.put("/axx", "anon");//代码生成
+        filterChainDefinitionMap.put("/pageLogInfo/**", "anon");//代码生成
 
         //filterChainDefinitionMap.put("/sys/common/view/**", "anon");//图片预览不限制token
         //filterChainDefinitionMap.put("/sys/common/download/**", "anon");//文件下载不限制token
